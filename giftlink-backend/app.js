@@ -1,8 +1,8 @@
 // API - Part 1 - Task 1: Import giftRoutes
-{{insert code here}}
+const giftRoutes = require('./routes/giftRoutes');
 
 // API - Part 2 - Task 2: Use giftRoutes for '/api/gifts' path
-{{insert code here}}
+app.use('/api/gifts', giftRoutes);
 
 //  API - Part 2 - Task 1: Import searchRoutes
 {{insert code here}}
