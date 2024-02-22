@@ -1,11 +1,14 @@
 // db.js
+require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 let dbInstance = null;
 
 const username = encodeURIComponent(process.env.MONGO_USER);
 const password = encodeURIComponent(process.env.MONGO_PASS);
-const url = process.env.MONGO_URL;
+
+// MongoDB connection URL with authentication options
+let url = `${process.env.MONGO_URL}`;
 const dbName = "giftdb";
 
 const authSource = 'admin';
