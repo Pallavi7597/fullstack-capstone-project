@@ -10,18 +10,41 @@ function DetailsPage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Task 1: Check for authentication and redirect
-        {{insert code here}}
+        const authenticationToken = sessionStorage.getItem('auth-token');
+        if (!authenticationToken) {
+            // Task 1: Check for authentication and redirect
+            navigate('/app/login');
+        }
 
-        // Task 2: Fetch gift details
-        {{insert code here}}
+        // get the gift to be rendered on the details page
+        const fetchGift = async () => {
+            try {
+                // Task 2: Fetch gift details
+                const url = `${urlConfig.backendUrl}/api/gifts/${productId}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setGift(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGift();
 
         // Task 3: Scroll to top on component mount
-        {{insert code here}}
-    }, [productId]);
+        window.scrollTo(0, 0);
 
-    // Task 4: Handle back click
-    const handleBackClick = () => {{insert code here}};
+    }, [productId, navigate]);
+
+    const handleBackClick = () => {
+        // Task 4: Handle back click
+        navigate(-1);
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -29,20 +52,40 @@ function DetailsPage() {
 
     return (
         <div className="container mt-5">
-            <button onClick={handleBackClick}>Back</button>
-            <div className="card">
-                <div className="card-header">
-                    <h2>{gift ? gift.name : 'Gift Details'}</h2>
+            <button className="btn btn-secondary mb-3" onClick={handleBackClick}>Back</button>
+            <div className="card product-details-card">
+                <div className="card-header text-white">
+                    <h2 className="details-title">{gift.name}</h2>
                 </div>
                 <div className="card-body">
-                    // Task 5: Display gift image
-                    {{insert code here}}
-                    // Task 6: Display gift details
-                    {{insert code here}}
+                    <div className="image-placeholder-large">
+                        {gift.image ? (
+                            // Task 5: Display gift image
+                            <img src={gift.image} alt={gift.name} className="product-image-large" />
+                        ) : (
+                            <div className="no-image-available-large">No Image Available</div>
+                        )}
+                    </div>
+                    {/* Task 6: Display gift details */}
+                    <p><strong>Category:</strong> {gift.category}</p>
+                    <p><strong>Condition:</strong> {gift.condition}</p>
+                    <p><strong>Date Added:</strong> {gift.dateAdded}</p>
+                    <p><strong>Age (Years):</strong> {gift.age}</p>
+                    <p><strong>Description:</strong> {gift.description}</p>
                 </div>
             </div>
-            // Task 7: Render comments section
-            {{insert code here}}
+            <div className="comments-section mt-4">
+                <h3 className="mb-3">Comments</h3>
+                {/* Task 7: Render comments section */}
+                {gift.comments.map((comment, index) => (
+                    <div key={index} className="card mb-3">
+                        <div className="card-body">
+                            <p className="comment-author"><strong>{comment.author}:</strong></p>
+                            <p className="comment-text">{comment.comment}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
