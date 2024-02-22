@@ -1,39 +1,22 @@
 // db.js
 require('dotenv').config();
-const { MongoClient } = require('mongodb');
-
-let dbInstance = null;
-
-const username = encodeURIComponent(process.env.MONGO_USER);
-const password = encodeURIComponent(process.env.MONGO_PASS);
+const MongoClient = require('mongodb').MongoClient;
 
 // MongoDB connection URL with authentication options
 let url = `${process.env.MONGO_URL}`;
-const dbName = "giftdb";
 
-const authSource = 'admin';
+let dbInstance = null;
+const dbName = "giftdb";
 
 async function connectToDatabase() {
     if (dbInstance){
         return dbInstance
     };
 
-    //Task 1: Connect to MongoDB
-    const client = new MongoClient(url, {
-        auth: {
-            username: username,
-            password: password
-        },
-        authSource: authSource,
-        useUnifiedTopology: true
-    });
+    const client = new MongoClient(url);      
 
     await client.connect();
-
-    //Task 2: Assign dbInstance
     dbInstance = client.db(dbName);
-
-    //Task 3: Return dbInstance
     return dbInstance;
 }
 
