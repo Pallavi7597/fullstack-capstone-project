@@ -22,9 +22,8 @@ connectToDatabase().then(() => {
 app.use(express.json());
 
 // Route files
-// Task 1: import the giftRoutes and store in a costant called giftroutes
 const giftRoutes = require('./routes/giftRoutes');
-// const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const pinoHttp = require('pino-http');
 const logger = require('./logger');
@@ -32,9 +31,8 @@ const logger = require('./logger');
 app.use(pinoHttp({ logger }));
 
 // Use Routes
-// Task 2: add the giftRoutes to the server by using the app.use() method.
 app.use('/api/gifts', giftRoutes);
-// app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
 
 // Global Error Handler
