@@ -96,7 +96,7 @@ function LoginPage() {
                                 onChange={(e) => {setPassword(e.target.value);setIncorrect("")}}
                             />
 
-                            //Step 2: Task 6
+                            {/*Step 2: Task 6*/}
                             <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>
                         </div>
                         <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
